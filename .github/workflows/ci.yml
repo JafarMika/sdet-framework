@@ -12,6 +12,16 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    services:
+      postgres-db:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: qa_user
+          POSTGRES_PASSWORD: qa_password
+          POSTGRES_DB: automation_testing
+        ports:
+          - 5432:5432
+
     permissions:
       contents: read
       checks: write

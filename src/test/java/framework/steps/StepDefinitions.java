@@ -20,7 +20,7 @@ import static org.junit.Assert.assertTrue;
 public class StepDefinitions {
 
     private final BaseClient client = new BaseClient();
-    private final DatabaseHelper databaseHelper = new DatabaseHelper();
+    private DatabaseHelper databaseHelper;
     private Response response;
     private ResultSet resultSet;
 
@@ -56,7 +56,14 @@ public class StepDefinitions {
 
     @When("I query the database with {string}")
     public void queryDatabase(String sql) throws SQLException {
-        resultSet = databaseHelper.executeQuery(sql);
+        resultSet = getDatabaseHelper().executeQuery(sql);
+    }
+
+    private DatabaseHelper getDatabaseHelper() {
+        if (databaseHelper == null) {
+            databaseHelper = new DatabaseHelper();
+        }
+        return databaseHelper;
     }
 
     @Then("the result should contain {string}")

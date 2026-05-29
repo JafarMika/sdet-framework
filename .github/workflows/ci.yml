@@ -41,6 +41,26 @@ jobs:
       - name: Run tests
         run: mvn test
 
+      - name: Install Allure CLI
+        if: always()
+        run: |
+          ALLURE_VERSION=2.27.0
+          wget -q "https://github.com/allure-framework/allure2/releases/download/${ALLURE_VERSION}/allure-${ALLURE_VERSION}.tgz"
+          tar -zxf "allure-${ALLURE_VERSION}.tgz"
+          echo "$PWD/allure-${ALLURE_VERSION}/bin" >> "$GITHUB_PATH"
+
+      - name: Generate Allure report
+        if: always()
+        run: allure generate target/allure-results --clean -o target/allure-report
+
+      - name: Upload Allure report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-report
+          path: target/allure-report/
+          if-no-files-found: ignore
+
       - name: Publish test results
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()

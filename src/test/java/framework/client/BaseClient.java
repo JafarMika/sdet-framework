@@ -3,12 +3,17 @@ package framework.client;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.function.Supplier;
 
 public class BaseClient {
+
+    private static final Logger log = LoggerFactory.getLogger(BaseClient.class);
 
     private final String baseUrl;
 
@@ -21,27 +26,36 @@ public class BaseClient {
     }
 
     public Response get(String path) {
-        return request().get(path);
+        return execute("GET", path, () -> request().get(path));
     }
 
     public Response post(String path) {
-        return request().post(path);
+        return execute("POST", path, () -> request().post(path));
     }
 
     public Response post(String path, Object body) {
-        return request().body(body).post(path);
+        return execute("POST", path, () -> request().body(body).post(path));
     }
 
     public Response put(String path) {
-        return request().put(path);
+        return execute("PUT", path, () -> request().put(path));
     }
 
     public Response put(String path, Object body) {
-        return request().body(body).put(path);
+        return execute("PUT", path, () -> request().body(body).put(path));
     }
 
     public Response delete(String path) {
-        return request().delete(path);
+        return execute("DELETE", path, () -> request().delete(path));
+    }
+
+    private Response execute(String method, String path, Supplier<Response> request) {
+        log.info("Request: {} {}", method, baseUrl + path);
+        long startTime = System.currentTimeMillis();
+        Response response = request.get();
+        long elapsedTime = System.currentTimeMillis() - startTime;
+        log.info("Response: status code {} ({} ms)", response.getStatusCode(), elapsedTime);
+        return response;
     }
 
     private RequestSpecification request() {

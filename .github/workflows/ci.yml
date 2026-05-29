@@ -51,7 +51,7 @@ jobs:
 
       - name: Generate Allure report
         if: always()
-        run: allure generate target/allure-results --clean -o target/allure-report
+        run: allure generate target/allure-results --clean -o target/allure-report --single-file
 
       - name: Upload Allure report
         uses: actions/upload-artifact@v4

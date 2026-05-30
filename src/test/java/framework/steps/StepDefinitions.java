@@ -2,6 +2,7 @@ package framework.steps;
 
 import framework.client.BaseClient;
 import framework.database.DatabaseHelper;
+import framework.helpers.SchemaValidator;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
@@ -62,6 +63,14 @@ public class StepDefinitions {
     public void responseShouldContain(String expectedText) {
         logStepStart("response should contain \"" + expectedText + "\"");
         assertTrue(response.getBody().asString().contains(expectedText));
+    }
+
+    @Then("response should match schema {string}")
+    public void responseShouldMatchSchema(String schemaFileName) {
+        logStepStart("response should match schema \"" + schemaFileName + "\"");
+        log.info("Validating response against schema: {}", schemaFileName);
+        SchemaValidator.validate(response.getBody().asString(), schemaFileName);
+        log.info("Response matches schema: {}", schemaFileName);
     }
 
     @When("I query the database with {string}")

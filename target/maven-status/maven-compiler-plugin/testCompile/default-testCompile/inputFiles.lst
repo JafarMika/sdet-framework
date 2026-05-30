@@ -2,4 +2,5 @@
 /home/jafar/projects/sdet-framework/src/test/java/framework/client/BaseClient.java
 /home/jafar/projects/sdet-framework/src/test/java/framework/database/DatabaseHelper.java
 /home/jafar/projects/sdet-framework/src/test/java/framework/helpers/JsonHelper.java
+/home/jafar/projects/sdet-framework/src/test/java/framework/helpers/SchemaValidator.java
 /home/jafar/projects/sdet-framework/src/test/java/framework/steps/StepDefinitions.java

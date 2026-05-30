@@ -1,6 +1,6 @@
-framework/steps/StepDefinitions.class
 framework/helpers/JsonHelper.class
-framework/helpers/JsonHelper$1.class
 framework/client/BaseClient.class
 framework/database/DatabaseHelper.class
 framework/TestRunner.class
+framework/steps/StepDefinitions.class
+framework/helpers/JsonHelper$1.class
